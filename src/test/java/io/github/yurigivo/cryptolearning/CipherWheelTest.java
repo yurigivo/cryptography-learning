@@ -31,7 +31,7 @@ public class CipherWheelTest {
     /** Ex. 1.1 (b) */
     @Test public void decryptsWithRotation7() {
         String plaintext = "AOLYLHYLUVZLJYLAZILAALYAOHUAOLZLJYLAZAOHALCLYFIVKFNBLZZLZ";
-        String ciphertext = new CipherWheel(7).decrypt(plaintext.toLowerCase());
+        String ciphertext = new CipherWheel(7).decrypt(plaintext);
         System.out.println(ciphertext);
     }
     /** Ex. 1.1 (c) */
@@ -40,9 +40,29 @@ public class CipherWheelTest {
         StringBuilder plaintext = new StringBuilder();
         char[] letters = ciphertext.toCharArray();
         for (int i = 0; i < letters.length; i++) {
-            String letter = String.valueOf(letters[i]).toLowerCase();
+            String letter = String.valueOf(letters[i]);
             plaintext.append(new CipherWheel((i + 1) % ALPHABET_LENGTH).decrypt(letter));
         }
         System.out.println(plaintext);
+    }
+
+    /** Ex. 1.2 (a-c) */
+    @Test public void decryptsMessage_tryingToGuessRotation() {
+        String ciphertext1 = "LWKLQNWKDWLVKDOOQHYHUVHHDELOOERDUGORYHOBDVDWUHH";
+        String ciphertext2 = "UXENRBWXCUXENFQRLQJUCNABFQNWRCJUCNAJCRXWORWMB";
+        String ciphertext3 = "BGUTBMBGZTFHNLXMKTIPBMAVAXXLXTEPTRLEXTOXKHHFYHKMAXFHNLX";
+
+        // trying to guess the rotation
+//        for (int rotation = 1; rotation < 26; rotation++) {
+//            System.out.println("Rotation: " + rotation);
+//            CipherWheel cipherWheel = new CipherWheel(rotation);
+//            System.out.println(cipherWheel.decrypt(ciphertext1));
+//            System.out.println(cipherWheel.decrypt(ciphertext2));
+//            System.out.println(cipherWheel.decrypt(ciphertext3));
+//        }
+
+        System.out.println(new CipherWheel(3).decrypt(ciphertext1));
+        System.out.println(new CipherWheel(9).decrypt(ciphertext2));
+        System.out.println(new CipherWheel(19).decrypt(ciphertext3));
     }
 }
