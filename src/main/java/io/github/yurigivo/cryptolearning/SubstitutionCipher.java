@@ -20,6 +20,10 @@ public class SubstitutionCipher implements Cipher {
         this.cipherToPlain = cipherToPlain;
     }
 
+    public Map<Character, Character> getCipherToPlain() {
+        return cipherToPlain;
+    }
+
     @Override public String encrypt(String plaintext) {
         StringBuilder result = new StringBuilder(plaintext.length());
         for (char plainLetter : plaintext.toCharArray()) {
