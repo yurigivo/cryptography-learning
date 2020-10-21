@@ -113,4 +113,65 @@ public class SubstitutionCipherTest {
                 "appear, to the crude intellect of the sailor, absolutely insoluble\n" +
                 "without the key.");
     }
+    /** Ex. 1.4 (b) A Botanical Code */
+    @Test public void decryptsBotanicalCode() {
+//        String ciphertext =
+//                "KZRNK GJKIP ZBOOB XLCRG BXFAU GJBNG RIXRU XAFGJ BXRME MNKNG\n" +
+//                "BURIX KJRXR SBUER ISATB UIBNN RTBUM NBIGK EBIGR OCUBR GLUBN\n" +
+//                "JBGRL SJGLN GJBOR ISLRS BAFFO AZBUN RFAUS AGGBI NGLXM IAZRX\n" +
+//                "RMNVL GEANG CJRUE KISRM BOOAZ GLOKW FAUKI NGRIC BEBRI NJAWB\n" +
+//                "OBNNO ATBZJ KOBRC JKIRR NGBUE BRINK XKBAF QBROA LNMRG MALUF\n" +
+//                "BBG";
+        String ciphertext =
+                "K ZRN K GJKIP ZBOO BXLCRGBX FAU GJB NGRIXRUX AF GJB XRM EM NKNGBU\n" +
+                "RIX K JRX R SBUERI SATBUIBNN R TBUM NBIGKEBIGRO CUBRGLUB\n" +
+                "NJB GRLSJG LN GJB ORISLRSB AF FOAZBUN R FAUSAGGBI NGLXM IAZRXRMN\n" +
+                "VLG EANG CJRUEKIS R MBOOAZ GLOKW FAU KINGRICB EBRIN JAWBOBNN\n" +
+                "OATB ZJKOB R CJKIR RNGBU EBRIN K XKB AF QBROALNM RG MALU FBBG";
+        SubstitutionCipherDecryption decryption = new SubstitutionCipherDecryption(ciphertext);
+        System.out.println(decryption.getLetterFrequencies());
+        System.out.println(decryption.getBigramFrequencies());
+        //{B=32, R=28, G=22, N=20, A=16, I=16, U=14, K=13, O=12, J=11, L=10, X=10, F=8, M=8, E=7, S=7, Z=6, C=5, T=3, W=2, P=1, Q=1, V=1}
+        //{RI=7, NG=7, BU=6, BR=5, IN=4, JB=4, BN=4, BO=4, KI=4, OA=4, GB=4, GJ=4, GL=4, GR=4, XR=4}
+
+        // e, t,       a, o, n, r, i, s, h      d, l, f, c, m
+        // B, R        G, N, A, I, U, K, O      J, L, X, F, M
+        // th, he      an, re, er, in, on, at, nd, st, es, en, of, te, ed
+        // RI, NG,     BU, BR,      IN, JB, BN, BO, KI, OA, GB, GJ, GL, GR, XR
+
+        SubstitutionCipher guess = new SubstitutionCipher(
+                new SimpleEntry<>('e', 'B'),
+                new SimpleEntry<>('t', 'G'),
+                new SimpleEntry<>('a', 'R'),
+                new SimpleEntry<>('o', 'A'),
+                new SimpleEntry<>('n', 'I'),
+                new SimpleEntry<>('r', 'U'),
+                new SimpleEntry<>('i', 'K'),
+                new SimpleEntry<>('s', 'N'),
+                new SimpleEntry<>('h', 'J'),
+                new SimpleEntry<>('d', 'X'),
+                new SimpleEntry<>('l', 'O'),
+                new SimpleEntry<>('f', 'F'),
+                new SimpleEntry<>('c', 'C'),
+                new SimpleEntry<>('m', 'E'),
+                new SimpleEntry<>('u', 'L'),
+                new SimpleEntry<>('g', 'S'),
+                new SimpleEntry<>('y', 'M'),
+                new SimpleEntry<>('p', 'W'),
+                new SimpleEntry<>('w', 'Z'),
+                new SimpleEntry<>('b', 'V'),
+                new SimpleEntry<>('v', 'T'),
+                new SimpleEntry<>('k', 'P'),
+                new SimpleEntry<>('j', 'Q')
+        );
+        System.out.println();
+        decryption.printGuess(guess);
+        System.out.println();
+
+        System.out.println("I was, I think, well educated for the standard of my day. My sister\n" +
+                "and I had a German governess a Fraulein. A very sentimental creature.\n" +
+                "She taught us the language of flowers a forgotten study nowadays,\n" +
+                "but most charming. A yellow tulip, for instance, means ‘Hopeless Love,’\n" +
+                "while a China aster means ‘I Die of Jealousy at Your Feet.’");
+    }
 }

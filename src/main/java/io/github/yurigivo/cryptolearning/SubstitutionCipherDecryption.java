@@ -56,6 +56,20 @@ public class SubstitutionCipherDecryption {
         }
         return sortByValueDesc(result);
     }
+    public Map<String, Integer> getBigramFrequencies() {
+        Map<String, Integer> result = new HashMap<>();
+        char prev = this.ciphertext.charAt(0);
+        for (int i = 1; i < this.ciphertext.length(); i++) {
+            char current = this.ciphertext.charAt(i);
+            if (current != ' ' && current != '\n') {
+                String bigram = String.format("%s%s", prev, current);
+                int freq = result.getOrDefault(bigram, 0);
+                result.put(bigram, freq + 1);
+                prev = current;
+            }
+        }
+        return sortByValueDesc(result);
+    }
 
     public void printGuess(SubstitutionCipher guess) {
         Map<Character, Character> cipherToPlain = guess.getCipherToPlain();
