@@ -46,7 +46,7 @@ public class SubstitutionCipherDecryption {
     }
 
     public Map<Character, Integer> getLetterFrequencies() {
-        Map<Character, Integer> result = new HashMap<>();
+        Map<Character, Integer> result = new LinkedHashMap<>();
         for (int i = 0; i < this.ciphertext.length(); i++) {
             char ch = this.ciphertext.charAt(i);
             if (ch != ' ' && ch != '\n') {
@@ -57,7 +57,7 @@ public class SubstitutionCipherDecryption {
         return sortByValueDesc(result);
     }
     public Map<String, Integer> getBigramFrequencies() {
-        Map<String, Integer> result = new HashMap<>();
+        Map<String, Integer> result = new LinkedHashMap<>();
         char prev = this.ciphertext.charAt(0);
         for (int i = 1; i < this.ciphertext.length(); i++) {
             char current = this.ciphertext.charAt(i);
