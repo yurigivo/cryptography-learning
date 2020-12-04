@@ -4,6 +4,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import static org.apache.commons.math3.util.CombinatoricsUtils.binomialCoefficient;
+import static org.apache.commons.math3.util.CombinatoricsUtils.factorial;
+
 public class SubstitutionCipher implements Cipher {
     private final Map<Character, Character> plainToCipher;
     private final Map<Character, Character> cipherToPlain;
@@ -44,6 +47,33 @@ public class SubstitutionCipher implements Cipher {
         }
         return result.toString();
     }
+
+    public static long getNumberOfCiphers(int totalLetters) {
+        return factorial(totalLetters);
+    }
+    /** A letter in the alphabet is said to be fixed if the encryption of the letter is the letter itself. */
+    public static long getNumberOfCiphersWithExactlyFixed(int total, int fixed) {
+        if (fixed == 0) return getNumberOfCiphers(total) - getNumberOfCiphersWithAtLeastFixed(total, 1);
+        if (fixed == 1) return total * getNumberOfCiphersWithExactlyFixed(total - 1, 0);
+        throw new IllegalArgumentException("Not implemented.");
+    }
+    /** A letter in the alphabet is said to be fixed if the encryption of the letter is the letter itself. */
+    public static long getNumberOfCiphersWithAtLeastFixed(int total, int fixed) {
+        if (fixed == 1) {
+            long sum = 0;
+            for (int i = 0; i < total; i++) {
+                for (int j = 0; j <= i; j++) {
+                    int sign = j % 2 == 0 ? 1 : -1;
+                    sum += sign * binomialCoefficient(i, j) * factorial(total - 1 - j);
+                }
+            }
+            return sum;
+        }
+        if (fixed == 2)
+            return getNumberOfCiphersWithAtLeastFixed(total, 1) - getNumberOfCiphersWithExactlyFixed(total, 1);
+        throw new IllegalArgumentException("Not implemented.");
+    }
+
 
     public void printEncryptionTable() {
         printTable(plainToCipher);

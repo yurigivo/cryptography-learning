@@ -1,8 +1,14 @@
 package io.github.yurigivo.cryptolearning;
 
+import io.github.yurigivo.math.Permutations;
 import org.junit.Test;
 
 import java.util.AbstractMap.SimpleEntry;
+
+import static io.github.yurigivo.CustomAssert.assertAllEqual;
+import static io.github.yurigivo.cryptolearning.SubstitutionCipher.*;
+import static junit.framework.TestCase.assertEquals;
+import static org.apache.commons.math3.util.CombinatoricsUtils.factorial;
 
 public class SubstitutionCipherTest {
     /** Ex. 1.3 (a) */
@@ -229,5 +235,40 @@ public class SubstitutionCipherTest {
                 "has apparently been to conceal that these characters convey\n" +
                 "a message, and to give the idea that they are the mere random\n" +
                 "sketches of children.");
+    }
+
+    /** Ex. 1.5 (a) */
+    @Test public void calculatesNumberOfCiphers() {
+        assertEquals( 1, getNumberOfCiphers(1));
+        assertEquals( 2, getNumberOfCiphers(2));
+        assertEquals( 6, getNumberOfCiphers(3));
+        assertEquals(24, getNumberOfCiphers(4));
+        assertEquals(factorial(20), getNumberOfCiphers(20));
+    }
+    /** Ex. 1.5 (b) */
+    @Test public void calculatesNumberOfCiphers_whenFixedLetters() {
+        Permutations withThree = Permutations.fromLetters('a', 'b', 'c');
+        assertAllEqual(2, withThree.withExactlyNumberOfFixedLetters(0).size(), getNumberOfCiphersWithExactlyFixed(3, 0));
+        assertAllEqual(4, withThree.withAtLeastNumberOfFixedLetters(1).size(), getNumberOfCiphersWithAtLeastFixed(3, 1));
+        assertAllEqual(3, withThree.withExactlyNumberOfFixedLetters(1).size(), getNumberOfCiphersWithExactlyFixed(3, 1));
+        assertAllEqual(1, withThree.withAtLeastNumberOfFixedLetters(2).size(), getNumberOfCiphersWithAtLeastFixed(3, 2));
+
+        Permutations withFour = Permutations.fromLetters('a', 'b', 'c', 'd');
+        assertAllEqual( 9, withFour.withExactlyNumberOfFixedLetters(0).size(), getNumberOfCiphersWithExactlyFixed(4, 0));
+        assertAllEqual(15, withFour.withAtLeastNumberOfFixedLetters(1).size(), getNumberOfCiphersWithAtLeastFixed(4, 1));
+        assertAllEqual( 8, withFour.withExactlyNumberOfFixedLetters(1).size(), getNumberOfCiphersWithExactlyFixed(4, 1));
+        assertAllEqual( 7, withFour.withAtLeastNumberOfFixedLetters(2).size(), getNumberOfCiphersWithAtLeastFixed(4, 2));
+
+        Permutations withFive = Permutations.fromLetters('a', 'b', 'c', 'd', 'e');
+        assertAllEqual(44, withFive.withExactlyNumberOfFixedLetters(0).size(), getNumberOfCiphersWithExactlyFixed(5, 0));
+        assertAllEqual(76, withFive.withAtLeastNumberOfFixedLetters(1).size(), getNumberOfCiphersWithAtLeastFixed(5, 1));
+        assertAllEqual(45, withFive.withExactlyNumberOfFixedLetters(1).size(), getNumberOfCiphersWithExactlyFixed(5, 1));
+        assertAllEqual(31, withFive.withAtLeastNumberOfFixedLetters(2).size(), getNumberOfCiphersWithAtLeastFixed(5, 2));
+
+        Permutations withSix = Permutations.fromLetters('a', 'b', 'c', 'd', 'e', 'f');
+        assertAllEqual(265, withSix.withExactlyNumberOfFixedLetters(0).size(), getNumberOfCiphersWithExactlyFixed(6, 0));
+        assertAllEqual(455, withSix.withAtLeastNumberOfFixedLetters(1).size(), getNumberOfCiphersWithAtLeastFixed(6, 1));
+        assertAllEqual(264, withSix.withExactlyNumberOfFixedLetters(1).size(), getNumberOfCiphersWithExactlyFixed(6, 1));
+        assertAllEqual(191, withSix.withAtLeastNumberOfFixedLetters(2).size(), getNumberOfCiphersWithAtLeastFixed(6, 2));
     }
 }
