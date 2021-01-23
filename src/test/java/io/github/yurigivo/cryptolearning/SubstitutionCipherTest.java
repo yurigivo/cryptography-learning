@@ -1,6 +1,5 @@
 package io.github.yurigivo.cryptolearning;
 
-import io.github.yurigivo.math.Permutations;
 import org.junit.Test;
 
 import java.util.AbstractMap.SimpleEntry;

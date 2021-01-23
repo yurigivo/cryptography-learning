@@ -1,4 +1,4 @@
-package io.github.yurigivo.math;
+package io.github.yurigivo.cryptolearning;
 
 import org.junit.Test;
 
